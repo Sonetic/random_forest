@@ -37,5 +37,5 @@ df["Price_m2"] = df["Price_m2"].str.replace("\xa0", "").str.replace(" ", "").str
 
 df = df.drop(columns=["Apartment", "Ostatnia zmiana"], axis = 1)
 
-df.to_csv(r"C:\Users\Krzysztof\GitHub\logistic_regression_deweloperuch\deweloperuch_offers.csv", index=False)
+df.to_csv("deweloperuch_offers.csv", index=False)
 print("saved as deweloperuch_offers.csv")

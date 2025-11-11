@@ -13,13 +13,13 @@ for page in range(1, 529):
     rows = soup.find_all("tr", class_="border-b")
 
     for row in rows:
-        # pobierz adres z fioletowego linku
+        # downloading only purple text from webstie (as it is the exact adress whithout any further useless info)
         address_tag = row.find("a", class_="text-purple-600")
         address = address_tag.get_text(strip=True) if address_tag else ""
 
         cols = [c.get_text(strip=True) for c in row.find_all("td")]
         if len(cols) == 8:
-            # zastępujemy drugi element listy adresem z fioletowego linku
+            # applying adress
             cols[1] = address
             all_data.append(cols)
 
@@ -39,5 +39,5 @@ df["Price_m2"] = df["Price_m2"].str.replace("\xa0", "").str.replace(" ", "").str
 df = df[df["Date"].str.contains("2025")]
 df = df.drop(columns=["Apartment", "Date"], axis = 1)
 
-df.to_csv(r"C:\Users\Krzysztof\GitHub\logistic_regression_deweloperuch\deweloperuch_transactions.csv", index=False)
+df.to_csv("deweloperuch_transactions.csv", index=False)
 print("Saved as deweloperuch_transactions.csv")
