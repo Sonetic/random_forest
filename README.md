@@ -9,7 +9,8 @@ It implements a **Random Forest classifier** using **scikit-learn** to analyze d
 
 - `scrapping.py` & `scrapping2.py` — scripts for scraping apartment data  
 - `columns_preparation.py` — data preprocessing and missing value imputation  
-- `random_forest.py` — Random Forest training and prediction  
+- `random_forest.py` — Random Forest training and prediction
+- `xgb.py` — XGBoost training and prediction
 - `README.md`  
 
 
@@ -53,9 +54,27 @@ The data is collected automatically via web scraping from **deweloperuch.pl** an
 
 - Each decision tree in the forest is trained on a random subset of rows and features, reducing overfitting and improving generalization.
 
+
+
+### `xgb.py` — eXtreme Gradient Boosting Prediction
+- Loads the processed dataset from `deweloperuch_all.csv`.  
+- Removes **rare address classes** (appearing only once) to improve model stability.  
+- Performs **one-hot encoding** of categorical features.  
+- Splits data into **training and testing sets** using stratified sampling to maintain class balance.  
+- Encodes target labels with **LabelEncoder**.  
+- Trains an **XGBoost classifier** (`xgboost.XGBClassifier`) with optimized parameters:  
+  - `n_estimators=300`, `learning_rate=0.1`, `max_depth=6`, `subsample=0.8`, `colsample_bytree=0.8`  
+- Outputs:  
+  - **Model accuracy**  
+
+- Each tree is built sequentially, correcting mistakes of the previous ones.  
+  This **boosting mechanism** allows XGBoost to achieve higher accuracy and better generalization than Random Forest.
+
+
 ---
 
 ## Results & Interpretation
+### Random Forest
 
 Example output:
 Random Forest Accuracy: 0.6814
@@ -84,6 +103,20 @@ The results demonstrate that Random Forest can successfully capture patterns lin
 
 ---
 
+
+### XGBoost
+Example output:
+XGBoost Accuracy: 0.7026
+
+
+- **Accuracy (~70%)** shows that XGBoost performs slightly better than Random Forest, capturing more complex relationships between features.  
+- Thanks to its **boosting mechanism**, where each tree corrects the errors of the previous ones, XGBoost achieves higher precision and better generalization.  
+
+---
+
+Overall, both models demonstrate strong predictive capabilities, with **XGBoost outperforming Random Forest by about 2%**, confirming its advantage in modeling structured tabular data.
+
+
 ## How to Run
 
 1. Clone the repository:
@@ -100,6 +133,7 @@ The results demonstrate that Random Forest can successfully capture patterns lin
    python scrapping2.py
    python columns_preparation.py
    python random_forest.py
+   python xgb.py
 
 
 
