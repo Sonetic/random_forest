@@ -126,7 +126,7 @@ Overall, both models demonstrate strong predictive capabilities, with **XGBoost 
 
 2. Install dependencies:
    ```bash
-   pip install pandas scikit-learn requests beautifulsoup4
+   pip install pandas scikit-learn requests beautifulsoup4 xgboost
 3. Run 
    ```bash
    python scrapping.py
