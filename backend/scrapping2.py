@@ -5,7 +5,7 @@ import pandas as pd
 base_url = "https://deweloperuch.pl/ceny-ofertowe/warszawa/mieszkania?page="
 rows = []
 
-for page in range(1, 847):
+for page in range(1, 919):
     response = requests.get(base_url + str(page))
     soup = BeautifulSoup(response.text, "html.parser")
     table = soup.find("table")
@@ -16,15 +16,16 @@ for page in range(1, 847):
     for row in table.find_all("tr")[1:]:
         # finding all cells
         tds = row.find_all("td")
-        if len(tds) == 7:
+        if len(tds) >= 5:
             # only purple adress
             address_tag = row.find("a", class_="text-purple-600")
             address = address_tag.get_text(strip=True) if address_tag else ""
 
-            oferta, inwestycja, metraz, cena_m2, cena, zmiana, _ = [td.text.strip() for td in tds]
-
-            if "2025" in zmiana:
-                rows.append([oferta, address, metraz, cena_m2, cena, zmiana])
+            metraz = tds[2].text.strip()
+            cena_m2 = tds[3].text.strip()
+            cena = tds[4].text.strip()
+            zmiana = tds[5].text.strip()
+            rows.append([None, address, metraz, cena_m2, cena, zmiana])
 
 df = pd.DataFrame(rows, columns=["Apartment", "Address", "Area_m2", "Price_m2", "Price_total", "Ostatnia zmiana"])
 

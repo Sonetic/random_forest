@@ -2,6 +2,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import pandas as pd
+import joblib
+
 
 df = pd.read_csv('deweloperuch_all.csv')
 
@@ -16,7 +18,7 @@ X = pd.get_dummies(X, columns=["source"], drop_first=True)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
 
 # create and train the random forest model
-rf_model = RandomForestClassifier(n_estimators=135, random_state=42)
+rf_model = RandomForestClassifier(n_estimators=15, random_state=42)
 rf_model.fit(X_train, y_train)
 
 # accuracy
@@ -50,3 +52,5 @@ for col, imp in zip(X_train.columns, importances):
 # prediction of address
 predicted_address = rf_model.predict(sample)
 print("Most likely street:", predicted_address[0])
+
+joblib.dump(rf_model, "model.pkl")

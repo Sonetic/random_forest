@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <h2>Wyslij dane do API</h2>
+
+    <label>Powierzchnia m2: <input id="Area_m2" type="number"></label><br>
+    <label>Cena calkowita: <input id="Price_total" type="number"></label><br>
+    <label>Cena m2: <input id="Price_m2" type="number"></label><br>
+    <label>Liczba pokoi: <input id="Rooms" type="number"></label><br>
+    <label>Pietro: <input id="Floor" type="number"></label><br>
+    <label>Source transaction: <input id="source_transactions" type="number"></label><br>
+
+    <button onclick="sendData()">Wyslij do API</button>
+
+    <h3>Odpowiedz z API:</h3>
+    <pre id="response"></pre>
+
+    <script>
+        async function sendData() {
+            const data = {
+                Area_m2: Number(document.getElementById("Area_m2").value),
+                Price_total: Number(document.getElementById("Price_total").value),
+                Price_m2: Number(document.getElementById("Price_m2").value),
+                Rooms: Number(document.getElementById("Rooms").value),
+                Floor: Number(document.getElementById("Floor").value),
+                source_transactions: Number(document.getElementById("source_transactions").value)
+            };
+
+            const response = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById("response").textContent = JSON.stringify(result, null, 2);
+        }
+    </script>
+</body>
+</html>
